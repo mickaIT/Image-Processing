@@ -1,0 +1,2 @@
+# repozitory
+deskrypszyn
