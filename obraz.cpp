@@ -2,6 +2,11 @@
 #include "CImg.h"
 #include <cmath>
 #include <iostream>
+
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
 using namespace std;
 
 
@@ -702,23 +707,23 @@ void Obraz::orobertsi() {
 int Obraz::kirschOpCalc(int i, int j, int **r) {
 
 	int arr[15];
-	arr[0] = arr[8] =r[i - 1][j - 1];
+	arr[0] = arr[8] = r[i - 1][j - 1];
 	arr[7] = r[i - 1][j];
-	arr[6] =arr[14] = r[i - 1][j + 1];
-	arr[1] = arr[9] =r[i][j - 1];
-	arr[5] =arr[13] = r[i][j + 1];
-	arr[2] = arr[10] =r[i + 1][j - 1];
-	arr[3] = arr[11] =r[i + 1][j];
-	arr[4] = arr[12] =r[i + 1][j + 1];
+	arr[6] = arr[14] = r[i - 1][j + 1];
+	arr[1] = arr[9] = r[i][j - 1];
+	arr[5] = arr[13] = r[i][j + 1];
+	arr[2] = arr[10] = r[i + 1][j - 1];
+	arr[3] = arr[11] = r[i + 1][j];
+	arr[4] = arr[12] = r[i + 1][j + 1];
 
 	float Sresult = 0;
 	float Tresult = 0;
-	float result=0;
+	float result = 0;
 	int tempMax = 0;
 
 	for (int i = 0; i < 8; i++) {
-		Sresult=arr[i]+ arr[i+1] + arr[i+2];
-		Tresult=arr[i + 3]+ arr[i + 4]+ arr[i + 5]+ arr[i + 6]+ arr[i + 7];
+		Sresult = arr[i] + arr[i + 1] + arr[i + 2];
+		Tresult = arr[i + 3] + arr[i + 4] + arr[i + 5] + arr[i + 6] + arr[i + 7];
 
 		result = abs((5 * Sresult) - (3 * Tresult));
 		if (result > tempMax) tempMax = result;
@@ -743,9 +748,9 @@ void Obraz::kirsh() {
 		b1[i] = new int[x];
 		for (int j = 1; j < x - 1; j++) {
 			//zmiana
-			r1[i][j] = max(1,kirschOpCalc(i, j, r));
-			g1[i][j] = max(1,kirschOpCalc(i, j, g));
-			b1[i][j] = max(1,kirschOpCalc(i, j, b));
+			r1[i][j] = max(1, kirschOpCalc(i, j, r));
+			g1[i][j] = max(1, kirschOpCalc(i, j, g));
+			b1[i][j] = max(1, kirschOpCalc(i, j, b));
 		}
 	}
 
@@ -1264,73 +1269,132 @@ void Obraz::erosion(bool str_el[3][3])
 
 }
 
-void Obraz::HMTtransformation(int structural_element)// bool str_el[3][3], bool iistr_el[3][3]) 
+/*void Obraz::HMTtransformation(int structural_element, int z)// bool str_el[3][3], bool iistr_el[3][3])
 {
-	int **r1;
-	int **g1;
-	int **b1;
+int **r1;
+int **g1;
+int **b1;
 
-	r1 = new int *[y];
-	g1 = new int *[y];
-	b1 = new int *[y];
+r1 = new int *[y];
+g1 = new int *[y];
+b1 = new int *[y];
 
-	bool stan;
-	bool tab1[3][3];
-	bool tab2[3][3];
-	int type = 0;
+bool stan;
+bool tab1[3][3];
+bool tab2[3][3];
+//int typ = 0;
 
-	for (int i = 1; i < y - 1; i++)
-	{
+for (int i = 1; i < y - 1; i++)
+{
+r1[i] = new int[x];
+g1[i] = new int[x];
+b1[i] = new int[x];
+
+for (int j = 1; j < x - 1; j++) {
+stan = true;//true-->zamalowaæ
+if (!isWhite(i, j)) { // czy zadziała tylko na str_el=12?
+/*
+if (structural_element == 11) typ= 5; //zrobi 4 razy
+if (structural_element == 12) typ = 9; //zrobi 8 razy
+
+for (int g = 1; g < typ; g++) { *
+Choose_HMT_Structural_Element(structural_element, z, tab1, tab2);
+for (int p = 0; p < 3; p++) {
+for (int d = 0; d < 3; d++) {
+if (!((tab2[p][d] == 1 && (isWhite(i - 1 + p, j - 1 + d))) || (tab1[p][d] == 1 && (!isWhite(i - 1 + p, j - 1 + d)))))//
+{
+stan = false; //false -->niezamalowywaæ
+}
+} // dać break?
+}
+//	}
+
+if (stan)
+{
+cout << "O";
+r1[i][j] = 0;// 255;
+b1[i][j] = 0;// 255;
+g1[i][j] = 0;// 255;
+}
+
+if (!stan)
+{
+cout << "X";
+r1[i][j] = 255;// 0;
+b1[i][j] = 255;//  0;
+g1[i][j] = 255;// 0;
+}
+}
+
+else
+{
+
+r1[i][j] = 255;// 0;
+b1[i][j] = 255;// 0;
+g1[i][j] = 255;//0;
+}
+}
+}
+
+
+for (int i = 1; i < y - 1; i++)
+{
+for (int j = 1; j < x - 1; j++)
+{
+r[i][j] = r1[i][j];
+g[i][j] = g1[i][j];
+b[i][j] = b1[i][j];
+}
+} this->save();
+}
+*/
+
+void Obraz::HMTtransformation(int structural_element, int z) {
+	// Structural element
+	//const int 
+	z = 1; // TODO: Make it into an argument
+	bool hit[3][3];  // Matches 1
+	bool miss[3][3]; // Matches 0
+	Choose_HMT_Structural_Element(structural_element, z, hit, miss);
+
+	// Output image
+	int** r1 = new int*[y];
+	int** g1 = new int*[y];
+	int** b1 = new int*[y];
+
+	// Visit each pixel
+	bool white, match;
+	for (int i = 1; i < y - 1; i++) {
 		r1[i] = new int[x];
 		g1[i] = new int[x];
 		b1[i] = new int[x];
-
 		for (int j = 1; j < x - 1; j++) {
-			stan = true;//true-->zamalowaæ
-			if (!isWhite(i, j)) {
-
-				if (structural_element == 11) type= 5;
-				if (structural_element == 12) type = 9;
-
-				for (int g = 1; g < type; g++) {
-					Choose_HMT_Structural_Element(structural_element, g, tab1, tab2);
-					for (int p = 0; p < 3; p++) {
-						for (int d = 0; d < 3; d++) {
-							if (!(tab2[p][d] == 1 && (isWhite(i - 1 + p, j - 1 + d))) && !(tab1[p][d] == 1 && (!isWhite(i - 1 + p, j - 1 + d))))//
-							{
-								stan = false; //false -->niezamalowywaæ
-							}
-						} // dać break?
+			// Check if neighbours match st. element
+			match = true;
+			for (int p = 0; p < 3; p++) {
+				for (int d = 0; d < 3; d++) {
+					white = isWhite(i - 1 + p, j - 1 + d);
+					if ((hit[p][d] && !white) || (miss[p][d] && white)) {
+						//if (!(hit[p][d] == 1 && white) || !(miss[p][d] == 1 && !white)) {
+						match = false;
 					}
 				}
-
-				if (stan)
-				{
-					r1[i][j] = 255;
-					b1[i][j] = 255;
-					g1[i][j] = 255;
-				}
-
-				if (!stan)
-				{
-					cout << "X";
-					r1[i][j] = 0;
-					b1[i][j] = 0;
-					g1[i][j] = 0;
-				}
 			}
-
-			else
-			{
-				cout << "O";
+			// Color the pixel accordingly
+			if (match) {
+				r1[i][j] = 255;
+				g1[i][j] = 255;
+				b1[i][j] = 255;
+			}
+			else {
 				r1[i][j] = 0;
-				b1[i][j] = 0;
 				g1[i][j] = 0;
+				b1[i][j] = 0;
 			}
 		}
 	}
-	
 
+	// Save output
 	for (int i = 1; i < y - 1; i++)
 	{
 		for (int j = 1; j < x - 1; j++)
@@ -1341,215 +1405,7 @@ void Obraz::HMTtransformation(int structural_element)// bool str_el[3][3], bool 
 		}
 	} this->save();
 }
-																					   /*
-	int **r1;
-	int **g1;
-	int **b1;
 
-	r1 = new int *[y];
-	g1 = new int *[y];
-	b1 = new int *[y];
-
-	bool stan;
-	bool stan2;
-	bool leftPixel = 0;
-	bool rightPixel = 0;
-	for (int i = 1; i <y - 1; i++)
-	{
-		r1[i] = new int[x];
-		g1[i] = new int[x];
-		b1[i] = new int[x];
-
-
-		for (int j = 1; j < x - 1; j++) {
-			//IMAGE1 
-			stan = false;//false -->niezamalowywaæ
-			if (isWhite(i, j)) {
-				for (int p = 0; p < 3; p++) {
-					for (int d = 0; d < 3; d++) {
-						if (str_el[p][d] == 1 && (!isWhite(i - 1 + p, j - 1 + d)))
-						{
-							stan = true; //true-->zamalowaæ
-						}
-					}
-				}
-				if(stan)
-				{
-					//cout << "x";
-					leftPixel = 0;
-				}
-				if (!stan)
-				{
-					//cout << "O";
-					leftPixel = 1;
-				}
-			}
-			else
-			{
-				leftPixel = 0;
-			}
-		//IMAGE2 NEGATIVE
-				//false -->niezamalowywaæ
-			stan2 = false;
-			if (image2.isWhite(i, j)) {
-				for (int p = 0; p < 3; p++) {
-					for (int d = 0; d < 3; d++) {
-						if (iistr_el[p][d] == 1 && (!image2.isWhite(i - 1 + p, j - 1 + d)))
-						{
-							stan2 = true; //true-->zamalowaæ
-						}
-
-					}
-				}
-				if (stan2)
-				{
-					//cout << "x";
-					rightPixel = 0;
-				}
-				if (!stan2)
-				{
-					//cout << "O";
-					rightPixel = 1;
-				}
-			}
-			else
-			{
-				rightPixel = 0;
-			}
-
-			// LEFT & RIGHT
-			if (rightPixel & leftPixel)
-			{
-				r1[i][j] = 0;
-				g1[i][j] = 0;
-				b1[i][j] = 0;
-			}
-			else {
-				r1[i][j] = 255;
-				g1[i][j] = 255;
-				b1[i][j] = 255;
-			}
-		}
-	}
-	//zapisywanie
-	for (int i = 1; i < y - 1; i++)
-	{
-		for (int j = 1; j < x - 1; j++)
-		{
-			r[i][j] = r1[i][j];
-			g[i][j] = g1[i][j];
-			b[i][j] = b1[i][j];
-		}
-
-	} this->save();
-}*/
-
-
-
-/*
-	int **r1;
-	int **g1;
-	int **b1;
-
-	r1 = new int *[y];
-	g1 = new int *[y];
-	b1 = new int *[y];
-
-	bool stan;
-	bool leftPixel = 0;
-	bool rightPixel = 0;
-
-
-	for (int i = 1; i < y - 1; i++) {
-
-		r1[i] = new int[x];
-		g1[i] = new int[x];
-		b1[i] = new int[x];
-
-		for (int j = 1; j < x - 1; j++) {
-
-			stan = false;//false -->niezamalowywaæ
-			if (isWhite(i, j)) {
-				for (int p = 0; p < 3; p++) {
-					for (int d = 0; d < 3; d++) {
-						if (str_el[p][d] == 1 && (!isWhite(i - 1 + p, j - 1 + d)))
-						{
-							
-							stan = true; //true-->zamalowaæ
-						}
-
-					}
-				}
-				if (stan)
-				{
-					//cout << "x";
-					leftPixel = 0;
-				}
-				if (!stan)
-				{
-					//cout << "O";
-					leftPixel = 1;
-				}
-			}
-			else
-			{
-				leftPixel = 0;
-			}
-
-			//stan = false;//false -->niezamalowywaæ
-			if (!isWhite(i, j)) {
-				for (int p = 0; p < 3; p++) {
-					for (int d = 0; d < 3; d++) {
-						if (iistr_el[p][d] == 1 && (isWhite(i - 1 + p, j - 1 + d)))
-						{
-							stan = true; //true-->zamalowaæ
-						}
-
-					}
-				}
-				if (stan)
-				{
-					rightPixel = 0;
-				}
-				if (!stan)
-				{
-					rightPixel = 1;
-				}
-			}
-			else
-			{
-				cout << "+";
-				rightPixel = 255;//0;
-
-			}
-
-			if (rightPixel & leftPixel)
-			{
-				r1[i][j] = 0;
-				g1[i][j] = 0;
-				b1[i][j] = 0;
-			}
-			else {
-				r1[i][j] = 255;
-				g1[i][j] = 255;
-				b1[i][j] = 255;
-			}
-		}
-
-	}
-
-	for (int i = 1; i < y - 1; i++)
-	{
-		for (int j = 1; j < x - 1; j++)
-		{
-			r[i][j] = r1[i][j];
-			g[i][j] = g1[i][j];
-			b[i][j] = b1[i][j];
-		}
-
-	} this->save();
-	
-}*/
 
 bool isHit(int **rR, int i, int j) {
 	if (rR[i][j] == 0) return true;
@@ -1770,4 +1626,514 @@ void Obraz::region(int seedPoint, int backgroundColor) {
 	}
 
 	this->save();
+}
+
+//TASK 4
+
+complex<double> wyznacznik(int q, int m, int xx) {
+	complex<double> result(cos(2 * M_PI*q*m / xx), sin(-1 * 2 * M_PI*q*m / xx));
+	return result;
+}
+
+complex<double> wyznacznikInverse(int q, int m, int xx) {
+	complex<double> result(cos(2 * M_PI*q*m / xx), sin(1 * 2 * M_PI*q*m / xx));
+	return result;
+}
+
+void Obraz::slowFourier() {
+	complex<double> **rC;
+	complex<double> **gC;
+	complex<double> **bC;
+
+	rC = new complex<double> *[y];
+	gC = new complex<double> *[y];
+	bC = new complex<double> *[y];
+
+	for (int q = 0; q < y; q++) {
+		rC[q] = new complex<double>[x];
+		gC[q] = new complex<double>[x];
+		bC[q] = new complex<double>[x];
+		for (int p = 0; p < x; p++) {
+
+			for (int m = 0; m<y; m++) {
+				for (int n = 0; n<x; n++) {
+					complex<double> rrC(r[m][n], 0.0);
+					complex<double> ggC(g[m][n], 0.0);
+					complex<double> bbC(b[m][n], 0.0);
+					rC[q][p] += (rrC*wyznacznik(q, m, y)*wyznacznik(p, n, x));
+					gC[q][p] += (ggC*wyznacznik(q, m, y)*wyznacznik(p, n, x));
+					bC[q][p] += (bbC*wyznacznik(q, m, y)*wyznacznik(p, n, x));
+				}
+			}
+			rC[q][p] /= sqrt(x*y);
+			gC[q][p] /= sqrt(x*y);
+			bC[q][p] /= sqrt(x*y);
+		}
+	}
+
+
+	for (int i = 0; i < y; i++) {
+		for (int j = 0; j < x; j++) {
+			r[i][j] = abs(rC[i][j]);
+			g[i][j] = abs(gC[i][j]);
+			b[i][j] = abs(bC[i][j]);
+		}
+	}
+	this->save();
+}
+
+void Obraz::inverseSlowFourier() {
+
+	complex<double> **rCF;
+	complex<double> **gCF;
+	complex<double> **bCF;
+
+	rCF = new complex<double> *[y];
+	gCF = new complex<double> *[y];
+	bCF = new complex<double> *[y];
+
+	for (int q = 0; q < y; q++) {
+		rCF[q] = new complex<double>[x];
+		gCF[q] = new complex<double>[x];
+		bCF[q] = new complex<double>[x];
+		for (int p = 0; p < x; p++) {
+
+			for (int m = 0; m<y; m++) {
+				for (int n = 0; n<x; n++) {
+					complex<double> rrC(r[m][n], 0.0);
+					complex<double> ggC(g[m][n], 0.0);
+					complex<double> bbC(b[m][n], 0.0);
+					rCF[q][p] += (rrC*wyznacznik(q, m, y)*wyznacznik(p, n, x));
+					gCF[q][p] += (ggC*wyznacznik(q, m, y)*wyznacznik(p, n, x));
+					bCF[q][p] += (bbC*wyznacznik(q, m, y)*wyznacznik(p, n, x));
+				}
+			}
+			rCF[q][p] /= sqrt(x*y);
+			gCF[q][p] /= sqrt(x*y);
+			bCF[q][p] /= sqrt(x*y);
+		}
+	}
+
+
+	complex<double> **rC;
+	complex<double> **gC;
+	complex<double> **bC;
+
+	rC = new complex<double> *[y];
+	gC = new complex<double> *[y];
+	bC = new complex<double> *[y];
+
+	for (int q = 0; q < y; q++) {
+		rC[q] = new complex<double>[x];
+		gC[q] = new complex<double>[x];
+		bC[q] = new complex<double>[x];
+		for (int p = 0; p < x; p++) {
+
+			for (int m = 0; m<y; m++) {
+				for (int n = 0; n<x; n++) {
+					rC[q][p] += (rCF[m][n] * wyznacznikInverse(q, m, y)*wyznacznikInverse(p, n, x));
+					gC[q][p] += (gCF[m][n] * wyznacznikInverse(q, m, y)*wyznacznikInverse(p, n, x));
+					bC[q][p] += (bCF[m][n] * wyznacznikInverse(q, m, y)*wyznacznikInverse(p, n, x));
+				}
+			}
+			rC[q][p] /= sqrt(x*y);
+			gC[q][p] /= sqrt(x*y);
+			bC[q][p] /= sqrt(x*y);
+		}
+	}
+
+
+	for (int i = 0; i < y; i++) {
+		for (int j = 0; j < x; j++) {
+			r[i][j] = abs(rC[i][j]);
+			g[i][j] = abs(gC[i][j]);
+			b[i][j] = abs(bC[i][j]);
+		}
+	}
+	this->save();
+}
+
+void Obraz::fastFourierY(complex<double> *inputR, complex<double> *inputG, complex<double> *inputB, int N, bool isNormal) { //N to dlugosc lub szerokosc obrazu, niewazne w sumie bo obraz musi byc kwadratowy
+	if (N == 1) return;
+
+	complex<double> *leftR; complex<double> *leftG; complex<double> *leftB;
+	leftR = new complex<double>[N / 2]; leftG = new complex<double>[N / 2]; leftB = new complex<double>[N / 2];
+	complex<double> *rightR; complex<double> *rightG; complex<double> *rightB;
+	rightR = new complex<double>[N / 2]; rightG = new complex<double>[N / 2]; rightB = new complex<double>[N / 2];
+	complex<double> *temp1R; complex<double> *temp1G; complex<double> *temp1B;
+	temp1R = new complex<double>[N / 2]; temp1G = new complex<double>[N / 2]; temp1B = new complex<double>[N / 2];
+	complex<double> *temp2R; complex<double> *temp2G; complex<double> *temp2B;
+	temp2R = new complex<double>[N / 2]; temp2G = new complex<double>[N / 2]; temp2B = new complex<double>[N / 2];
+
+	for (int i = 0; i < (N / 2); i++) {
+		leftR[i] = inputR[i]; leftG[i] = inputG[i]; leftB[i] = inputB[i];
+		rightR[i] = inputR[i + (N / 2)]; rightG[i] = inputG[i + (N / 2)]; rightB[i] = inputB[i + (N / 2)];
+	}
+
+	for (int i = 0; i < (N / 2); i++) {
+		complex<double> W;
+		if (isNormal)    W = wyznacznik(1, i, N);
+		else W = wyznacznikInverse(1, i, N);
+		temp1R[i] = leftR[i] + rightR[i]; temp1G[i] = leftG[i] + rightG[i]; temp1B[i] = leftB[i] + rightB[i];
+		temp2R[i] = leftR[i] - rightR[i]; temp2G[i] = leftG[i] - rightG[i]; temp2B[i] = leftB[i] - rightB[i];
+		temp2R[i] *= W; temp2G[i] *= W; temp2B[i] *= W;
+	}
+	delete leftR; delete leftG; delete leftB;
+	delete rightR; delete rightG; delete rightB;
+
+	fastFourierY(temp1R, temp1G, temp1B, N / 2, isNormal);
+	fastFourierY(temp2R, temp2G, temp2B, N / 2, isNormal);
+
+	int i = 0;
+	for (int k = 0; i<N; ++k)
+	{
+		inputR[i] = temp1R[k]; inputG[i] = temp1G[k]; inputB[i] = temp1B[k];
+		inputR[i + 1] = temp2R[k]; inputG[i + 1] = temp2G[k]; inputB[i + 1] = temp2B[k];
+		i += 2;
+	}
+	delete temp1R; delete temp1G; delete temp1B;
+	delete temp2R; delete temp2G; delete temp2B;
+}
+
+void Obraz::swap_quarters() {
+	int tempR;
+	int tempG;
+	int tempB;
+	for (int i = 0; i < y / 2; i++)
+		for (int j = 0; j < x / 2; j++)
+		{
+			tempR = r[i][j]; tempG = g[i][j]; tempB = b[i][j];
+			r[i][j] = r[i + y / 2][j + x / 2]; g[i][j] = g[i + y / 2][j + x / 2]; b[i][j] = b[i + y / 2][j + x / 2];
+			r[i + y / 2][j + x / 2] = tempR; g[i + y / 2][j + x / 2] = tempG; b[i + y / 2][j + x / 2] = tempB;
+			tempR = r[i + y / 2][j]; tempG = g[i + y / 2][j]; tempB = b[i + y / 2][j];
+			r[i + y / 2][j] = r[i][j + x / 2]; g[i + y / 2][j] = g[i][j + x / 2]; b[i + y / 2][j] = b[i][j + x / 2];
+			r[i][j + x / 2] = tempR; g[i][j + x / 2] = tempG; b[i][j + x / 2] = tempB;
+		}
+}
+
+void Obraz::swap_quarters(complex<double> **inputR, complex<double> **inputG, complex<double> **inputB) {
+	complex<double> tempR;
+	complex<double> tempG;
+	complex<double> tempB;
+	for (int i = 0; i < y / 2; i++)
+		for (int j = 0; j < x / 2; j++)
+		{
+			tempR = inputR[i][j]; tempG = inputG[i][j]; tempB = inputB[i][j];
+			inputR[i][j] = inputR[i + y / 2][j + x / 2]; inputG[i][j] = inputG[i + y / 2][j + x / 2]; inputB[i][j] = inputB[i + y / 2][j + x / 2];
+			inputR[i + y / 2][j + x / 2] = tempR; inputG[i + y / 2][j + x / 2] = tempG; inputB[i + y / 2][j + x / 2] = tempB;
+			tempR = inputR[i + y / 2][j]; tempG = inputG[i + y / 2][j]; tempB = inputB[i + y / 2][j];
+			inputR[i + y / 2][j] = inputR[i][j + x / 2]; inputG[i + y / 2][j] = inputG[i][j + x / 2]; inputB[i + y / 2][j] = inputB[i][j + x / 2];
+			inputR[i][j + x / 2] = tempR; inputG[i][j + x / 2] = tempG; inputB[i][j + x / 2] = tempB;
+		}
+}
+
+void Obraz::fastFourier() {
+	complex<double> **inputR; complex<double> **inputG; complex<double> **inputB;
+	inputR = new complex<double> *[y]; inputG = new complex<double> *[y]; inputB = new complex<double> *[y];
+
+	for (int i = 0; i < y; i++) {
+		inputR[i] = new complex<double>[x]; inputG[i] = new complex<double>[x]; inputB[i] = new complex<double>[x];
+		for (int j = 0; j<x; j++)
+		{
+			inputR[i][j] = complex<double>(r[i][j], 0.0);
+			inputG[i][j] = complex<double>(g[i][j], 0.0);
+			inputB[i][j] = complex<double>(b[i][j], 0.0);
+		}
+	}
+
+
+	for (int j = 0; j<x; j++)
+	{
+		complex<double> columnR[y]; complex<double> columnG[y]; complex<double> columnB[y];
+		for (int i = 0; i<y; i++) { columnR[i] = inputR[i][j]; columnG[i] = inputG[i][j]; columnB[i] = inputB[i][j]; }
+		fastFourierY(columnR, columnG, columnB, y, true);
+		for (int i = 0; i<y; i++) { inputR[i][j] = columnR[i]; inputG[i][j] = columnG[i]; inputB[i][j] = columnB[i]; }
+	}
+
+	for (int i = 0; i<y; i++)
+	{
+		complex<double> columnR[x]; complex<double> columnG[x]; complex<double> columnB[x];
+		for (int j = 0; j<x; j++) { columnR[j] = inputR[i][j]; columnG[j] = inputG[i][j]; columnB[j] = inputB[i][j]; }
+		fastFourierY(columnR, columnG, columnB, y, true);
+		for (int j = 0; j<x; j++) { inputR[i][j] = columnR[j]; inputG[i][j] = columnG[j]; inputB[i][j] = columnB[j]; }
+	}
+
+	for (int i = 0; i < y; i++) {
+		for (int j = 0; j < x; j++) {
+			r[i][j] = abs(inputR[i][j]) / sqrt(y*x);
+			g[i][j] = abs(inputG[i][j]) / sqrt(y*x);
+			b[i][j] = abs(inputB[i][j]) / sqrt(y*x);
+		}
+	}
+	swap_quarters();
+	this->save();
+}
+
+void Obraz::fastFourier(complex<double> **inputR, complex<double> **inputG, complex<double> **inputB) {
+
+
+
+	for (int j = 0; j<x; j++)
+	{
+		complex<double> columnR[y]; complex<double> columnG[y]; complex<double> columnB[y];
+		for (int i = 0; i<y; i++) { columnR[i] = inputR[i][j]; columnG[i] = inputG[i][j]; columnB[i] = inputB[i][j]; }
+		fastFourierY(columnR, columnG, columnB, y, true);
+		for (int i = 0; i<y; i++) { inputR[i][j] = columnR[i]; inputG[i][j] = columnG[i]; inputB[i][j] = columnB[i]; }
+	}
+
+	for (int i = 0; i<y; i++)
+	{
+		complex<double> columnR[x]; complex<double> columnG[x]; complex<double> columnB[x];
+		for (int j = 0; j<x; j++) { columnR[j] = inputR[i][j]; columnG[j] = inputG[i][j]; columnB[j] = inputB[i][j]; }
+		fastFourierY(columnR, columnG, columnB, y, true);
+		for (int j = 0; j<x; j++) { inputR[i][j] = columnR[j]; inputG[i][j] = columnG[j]; inputB[i][j] = columnB[j]; }
+	}
+
+	for (int i = 0; i < y; i++) {
+		for (int j = 0; j < x; j++) {
+			inputR[i][j] /= sqrt(y*x);
+			inputG[i][j] /= sqrt(y*x);
+			inputB[i][j] /= sqrt(y*x);
+		}
+	}
+	swap_quarters(inputR, inputG, inputB);
+
+}
+
+void Obraz::fastFourierInverse() {
+	complex<double> **inputR; complex<double> **inputG; complex<double> **inputB;
+	inputR = new complex<double> *[y]; inputG = new complex<double> *[y]; inputB = new complex<double> *[y];
+
+	for (int i = 0; i < y; i++) {
+		inputR[i] = new complex<double>[x]; inputG[i] = new complex<double>[x]; inputB[i] = new complex<double>[x];
+		for (int j = 0; j<x; j++)
+		{
+			inputR[i][j] = complex<double>(r[i][j], 0.0);
+			inputG[i][j] = complex<double>(g[i][j], 0.0);
+			inputB[i][j] = complex<double>(b[i][j], 0.0);
+		}
+	}
+
+
+	for (int j = 0; j<x; j++)
+	{
+		complex<double> columnR[y]; complex<double> columnG[y]; complex<double> columnB[y];
+		for (int i = 0; i<y; i++) { columnR[i] = inputR[i][j]; columnG[i] = inputG[i][j]; columnB[i] = inputB[i][j]; }
+		fastFourierY(columnR, columnG, columnB, y, true);
+		for (int i = 0; i<y; i++) { inputR[i][j] = columnR[i]; inputG[i][j] = columnG[i]; inputB[i][j] = columnB[i]; }
+	}
+
+	for (int i = 0; i<y; i++)
+	{
+		complex<double> columnR[x]; complex<double> columnG[x]; complex<double> columnB[x];
+		for (int j = 0; j<x; j++) { columnR[j] = inputR[i][j]; columnG[j] = inputG[i][j]; columnB[j] = inputB[i][j]; }
+		fastFourierY(columnR, columnG, columnB, y, true);
+		for (int j = 0; j<x; j++) { inputR[i][j] = columnR[j]; inputG[i][j] = columnG[j]; inputB[i][j] = columnB[j]; }
+	}
+
+	for (int i = 0; i < y; i++) {
+		for (int j = 0; j < x; j++) {
+			inputR[i][j] /= sqrt(y*x);
+			inputG[i][j] /= sqrt(y*x);
+			inputB[i][j] /= sqrt(y*x);
+		}
+	}
+
+
+	for (int j = 0; j<x; j++)
+	{
+		complex<double> columnR[y]; complex<double> columnG[y]; complex<double> columnB[y];
+		for (int i = 0; i<y; i++) { columnR[i] = inputR[i][j]; columnG[i] = inputG[i][j]; columnB[i] = inputB[i][j]; }
+		fastFourierY(columnR, columnG, columnB, y, false);
+		for (int i = 0; i<y; i++) { inputR[i][j] = columnR[i]; inputG[i][j] = columnG[i]; inputB[i][j] = columnB[i]; }
+	}
+
+	for (int i = 0; i<y; i++)
+	{
+		complex<double> columnR[x]; complex<double> columnG[x]; complex<double> columnB[x];
+		for (int j = 0; j<x; j++) { columnR[j] = inputR[i][j]; columnG[j] = inputG[i][j]; columnB[j] = inputB[i][j]; }
+		fastFourierY(columnR, columnG, columnB, y, false);
+		for (int j = 0; j<x; j++) { inputR[i][j] = columnR[j]; inputG[i][j] = columnG[j]; inputB[i][j] = columnB[j]; }
+	}
+
+	for (int i = 0; i < y; i++) {
+		for (int j = 0; j < x; j++) {
+			r[i][j] = abs(inputR[i][j]) / sqrt(x*y);
+			g[i][j] = abs(inputG[i][j]) / sqrt(x*y);
+			b[i][j] = abs(inputB[i][j]) / sqrt(x*y);
+		}
+	}
+	this->save();
+}
+
+void Obraz::fastFourierInverse(complex<double> **inputR, complex<double> **inputG, complex<double> **inputB) {
+
+
+	for (int j = 0; j<x; j++)
+	{
+		complex<double> columnR[y]; complex<double> columnG[y]; complex<double> columnB[y];
+		for (int i = 0; i<y; i++) { columnR[i] = inputR[i][j]; columnG[i] = inputG[i][j]; columnB[i] = inputB[i][j]; }
+		fastFourierY(columnR, columnG, columnB, y, false);
+		for (int i = 0; i<y; i++) { inputR[i][j] = columnR[i]; inputG[i][j] = columnG[i]; inputB[i][j] = columnB[i]; }
+	}
+
+	for (int i = 0; i<y; i++)
+	{
+		complex<double> columnR[x]; complex<double> columnG[x]; complex<double> columnB[x];
+		for (int j = 0; j<x; j++) { columnR[j] = inputR[i][j]; columnG[j] = inputG[i][j]; columnB[j] = inputB[i][j]; }
+		fastFourierY(columnR, columnG, columnB, y, false);
+		for (int j = 0; j<x; j++) { inputR[i][j] = columnR[j]; inputG[i][j] = columnG[j]; inputB[i][j] = columnB[j]; }
+	}
+
+	for (int i = 0; i < y; i++) {
+		for (int j = 0; j < x; j++) {
+			r[i][j] = abs(inputR[i][j]) / sqrt(x*y);
+			g[i][j] = abs(inputG[i][j]) / sqrt(x*y);
+			b[i][j] = abs(inputB[i][j]) / sqrt(x*y);
+		}
+	}
+	//swap_quarters();
+	this->save();
+}
+
+void Obraz::lowPass(int cut) {
+	complex<double> **inputR; complex<double> **inputG; complex<double> **inputB;
+	inputR = new complex<double> *[y]; inputG = new complex<double> *[y]; inputB = new complex<double> *[y];
+	for (int i = 0; i < y; i++) {
+		inputR[i] = new complex<double>[x]; inputG[i] = new complex<double>[x]; inputB[i] = new complex<double>[x];
+		for (int j = 0; j<x; j++)
+		{
+			inputR[i][j] = complex<double>(r[i][j], 0.0);
+			inputG[i][j] = complex<double>(g[i][j], 0.0);
+			inputB[i][j] = complex<double>(b[i][j], 0.0);
+		}
+	}
+	fastFourier(inputR, inputG, inputB);
+	for (int i = 0; i<y; i++) {
+		for (int j = 0; j<x; j++) {
+			int d = sqrt((i - y / 2)*(i - y / 2) + (j - x / 2)*(j - x / 2));
+			if (d>cut) { inputR[i][j] = 0.0; inputG[i][j] = 0.0; inputB[i][j] = 0.0; }
+		}
+	}
+	fastFourierInverse(inputR, inputG, inputB);
+}
+
+void Obraz::highPass(int cut) {
+	complex<double> **inputR; complex<double> **inputG; complex<double> **inputB;
+	inputR = new complex<double> *[y]; inputG = new complex<double> *[y]; inputB = new complex<double> *[y];
+	for (int i = 0; i < y; i++) {
+		inputR[i] = new complex<double>[x]; inputG[i] = new complex<double>[x]; inputB[i] = new complex<double>[x];
+		for (int j = 0; j<x; j++)
+		{
+			inputR[i][j] = complex<double>(r[i][j], 0.0);
+			inputG[i][j] = complex<double>(g[i][j], 0.0);
+			inputB[i][j] = complex<double>(b[i][j], 0.0);
+		}
+	}
+	fastFourier(inputR, inputG, inputB);
+	for (int i = 0; i<y; i++) {
+		for (int j = 0; j<x; j++) {
+			int d = sqrt((i - y / 2)*(i - y / 2) + (j - x / 2)*(j - x / 2));
+			if (d<cut) { inputR[i][j] = 0.0; inputG[i][j] = 0.0; inputB[i][j] = 0.0; }
+		}
+	}
+	fastFourierInverse(inputR, inputG, inputB);
+}
+
+void Obraz::bandPass(int min, int max) {
+	complex<double> **inputR; complex<double> **inputG; complex<double> **inputB;
+	inputR = new complex<double> *[y]; inputG = new complex<double> *[y]; inputB = new complex<double> *[y];
+	for (int i = 0; i < y; i++) {
+		inputR[i] = new complex<double>[x]; inputG[i] = new complex<double>[x]; inputB[i] = new complex<double>[x];
+		for (int j = 0; j<x; j++)
+		{
+			inputR[i][j] = complex<double>(r[i][j], 0.0);
+			inputG[i][j] = complex<double>(g[i][j], 0.0);
+			inputB[i][j] = complex<double>(b[i][j], 0.0);
+		}
+	}
+	fastFourier(inputR, inputG, inputB);
+	for (int i = 0; i<y; i++) {
+		for (int j = 0; j<x; j++) {
+			int d = sqrt((i - y / 2)*(i - y / 2) + (j - x / 2)*(j - x / 2));
+			if (d<min || d>max) { inputR[i][j] = 0.0; inputG[i][j] = 0.0; inputB[i][j] = 0.0; }
+		}
+	}
+	fastFourierInverse(inputR, inputG, inputB);
+}
+
+void Obraz::bandCut(int min, int max) {
+	complex<double> **inputR; complex<double> **inputG; complex<double> **inputB;
+	inputR = new complex<double> *[y]; inputG = new complex<double> *[y]; inputB = new complex<double> *[y];
+	for (int i = 0; i < y; i++) {
+		inputR[i] = new complex<double>[x]; inputG[i] = new complex<double>[x]; inputB[i] = new complex<double>[x];
+		for (int j = 0; j<x; j++)
+		{
+			inputR[i][j] = complex<double>(r[i][j], 0.0);
+			inputG[i][j] = complex<double>(g[i][j], 0.0);
+			inputB[i][j] = complex<double>(b[i][j], 0.0);
+		}
+	}
+	fastFourier(inputR, inputG, inputB);
+	for (int i = 0; i<y; i++) {
+		for (int j = 0; j<x; j++) {
+			int d = sqrt((i - y / 2)*(i - y / 2) + (j - x / 2)*(j - x / 2));
+			if (d>min && d<max) { inputR[i][j] = 0.0; inputG[i][j] = 0.0; inputB[i][j] = 0.0; }
+		}
+	}
+	fastFourierInverse(inputR, inputG, inputB);
+}
+
+void Obraz::highPassEdge(char *argv) {
+	cimg_library::CImg<unsigned char> image(argv);
+	int **r1;
+	r1 = new int *[y];
+	for (int i = 0; i < y; i++)
+	{
+		r1[i] = new int[x];
+		for (int j = 0; j < x; j++) {
+			r1[i][j] = image.atXYZC(i, j, 0, 0);
+		}
+	}
+	complex<double> **inputR; complex<double> **inputG; complex<double> **inputB;
+	inputR = new complex<double> *[y]; inputG = new complex<double> *[y]; inputB = new complex<double> *[y];
+	for (int i = 0; i < y; i++) {
+		inputR[i] = new complex<double>[x]; inputG[i] = new complex<double>[x]; inputB[i] = new complex<double>[x];
+		for (int j = 0; j<x; j++)
+		{
+			inputR[i][j] = complex<double>(r[i][j], 0.0);
+			inputG[i][j] = complex<double>(g[i][j], 0.0);
+			inputB[i][j] = complex<double>(b[i][j], 0.0);
+		}
+	}
+	fastFourier(inputR, inputG, inputB);
+	for (int i = 0; i<y; i++) {
+		for (int j = 0; j<x; j++) {
+			int d = sqrt((i - y / 2)*(i - y / 2) + (j - x / 2)*(j - x / 2));
+			if (r1[i][j] == 0) { inputR[i][j] = 0.0; inputG[i][j] = 0.0; inputB[i][j] = 0.0; }
+		}
+	}
+	fastFourierInverse(inputR, inputG, inputB);
+}
+
+void Obraz::phaseMod(int k, int l) {
+	complex<double> **inputR; complex<double> **inputG; complex<double> **inputB;
+	inputR = new complex<double> *[y]; inputG = new complex<double> *[y]; inputB = new complex<double> *[y];
+	for (int i = 0; i < y; i++) {
+		inputR[i] = new complex<double>[x]; inputG[i] = new complex<double>[x]; inputB[i] = new complex<double>[x];
+		for (int j = 0; j<x; j++)
+		{
+			inputR[i][j] = complex<double>(r[i][j], 0.0);
+			inputG[i][j] = complex<double>(g[i][j], 0.0);
+			inputB[i][j] = complex<double>(b[i][j], 0.0);
+		}
+	}
+	fastFourier(inputR, inputG, inputB);
+	for (int i = 0; i<y; i++) {
+		for (int j = 0; j<x; j++) {
+			complex<double> faza = exp((-2 * M_PI*i*k) / y + (-2 * M_PI*j*l) / x + (k + l)*M_PI);
+			inputR[i][j] *= faza; inputG[i][j] *= faza; inputB[i][j] *= faza;
+		}
+	}
+	fastFourierInverse(inputR, inputG, inputB);
 }
